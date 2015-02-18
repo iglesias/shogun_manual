@@ -1,0 +1,7 @@
+MARKDOWN_SUPPORT       = YES
+INPUT                  = classifier \
+FILE_PATTERNS          = *.md
+EXCLUDE_PATTERNS       = knn.md
+EXAMPLE_PATH           = classifier/examples \ 
+EXAMPLE_PATTERNS       = *.py \
+                         *.m \

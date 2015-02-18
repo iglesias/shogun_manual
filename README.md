@@ -1,5 +1,11 @@
 # A new Shogun web manual
 
+We attempt to get documentation such as [sckit's](http://scikit-learn.org/stable/user_guide.html).
+We showcase our main strength via allowing users to switch the target language of the code snippets with one click.
+
+
+# Prototype
+
 The idea is to write a single file such as ```knn.md```.
 Those are then locally copied into ```knn_python.md```, ```knn_octave.md```, with lines as
 

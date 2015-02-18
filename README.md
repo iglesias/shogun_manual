@@ -9,10 +9,11 @@ being transformed into
 ```\snippet knn.py	 load_data```
 for the appropriate target language.
 
-Have a look into ```classifier```, where I created such copies by hand.
-A script would do that.
+Have a look into ```classifier```, where I created such copies by hand. A script would do that in practice.
+
+
 The file ```classifier/examples/knn.sg``` here contains the meta-language example.
-This (with some soon to happen patch) can be easily converted to ```classifier/examples/knn.py```, ```classifier/examples/knn.m``` etc for all target languages.
+This (with some soon to happen patch) can be easily converted to ```classifier/examples/knn.py```, ```classifier/examples/knn.m``` etc for all target languages. I also included those files for now.
 
 Run
 

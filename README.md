@@ -3,10 +3,16 @@
 The idea is to write a single file such as ```knn.md```.
 Those are then locally copied into ```knn_python.md```, ```knn_octave.md```, with lines as
 
-```\snippet knn.sg	 load_data```
+```
+\snippet knn.sg	 load_data
+```
+
 being transformed into
 
-```\snippet knn.py	 load_data```
+```
+\snippet knn.py	 load_data
+```
+
 for the appropriate target language.
 
 Have a look into ```classifier```, where I created such copies by hand. A script would do that in practice.

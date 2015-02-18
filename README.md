@@ -16,7 +16,9 @@ This (with some soon to happen patch) can be easily converted to ```classifier/e
 
 Run
 
-```doxygen doxyfile.in . html```
+```
+doxygen doxyfile.in . html
+```
 
 to get an example output. Look at ```html/page.html```.
 

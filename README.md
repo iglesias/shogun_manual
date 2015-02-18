@@ -38,7 +38,7 @@ to get an example output. Look at ```html/page.html```.
 In practice, we would now paste these pages together to get a page that contains all listings one after another.
 The we add a JavaScript bar that allows users to select their language of choice, hiding all other listings from the html.
 
-The pipeline is:
+# Pipeline
  * We write pages such as ```knn.md```, including snippets from a meta language example ```knn.sg```
  * Some script produces copies such as ```knn_python.md``` which include the python source file for snippets
  * doxygen renders static html pages for all languages

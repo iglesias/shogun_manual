@@ -19,7 +19,7 @@ Have a look into ```classifier```, where I created such copies by hand. A script
 
 
 The file ```classifier/examples/knn.sg``` here contains the meta-language example.
-This (with some soon to happen patch) can be easily converted to ```classifier/examples/knn.py```, ```classifier/examples/knn.m``` etc for all target languages. I also included those files for now.
+This (with some soon to happen patch) can be easily converted to ```classifier/examples/knn.py```, ```classifier/examples/knn.m``` etc for all target languages. I also included those files for now. See [Esben's meta-language project](https://github.com/sorig/shogun/tree/develop/examples/example-generation).
 
 Run
 

@@ -1,4 +1,5 @@
 # A new Shogun web manual
+## aka minimal example 2.0
 
 We attempt to get documentation such as [sckit's](http://scikit-learn.org/stable/user_guide.html).
 We showcase our main strength via allowing users to switch the target language of the code snippets with one click.

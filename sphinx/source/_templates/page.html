@@ -1,0 +1,28 @@
+{%- extends "layout.html" %}
+{% block body %}
+<div class="container">
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#python" role="tab" data-toggle="tab">Python</a></li>
+    <li role="presentation"><a href="#octave" role="tab" data-toggle="tab">Octave</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="python">
+      <div class="contents">
+      	{{ body_python }}
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="octave">
+      <div class="contents">
+      	{{ body_octave }}
+      </div>
+    </div>
+  </div><!--div class="tab-content"-->
+
+</div><!--div role="tabpanel"-->
+</div><!--div class="container"-->
+{% endblock %}

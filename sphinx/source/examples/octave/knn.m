@@ -1,6 +1,7 @@
 modshogun
 
 %![load_data]
+% octave example
 trainf = CSVFile('../data/fm_train_real.dat');
 feats_train = RealFeatures(trainf);
 testf = CSVFile('../data/fm_test_real.dat');

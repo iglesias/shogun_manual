@@ -1,4 +1,5 @@
 #![load_data]
+# sgexample
 CSVFile trainf("../data/fm_train_real.dat")
 RealFeatures feats_train(trainf)
 CSVFile testf("../data/fm_test_real.dat")

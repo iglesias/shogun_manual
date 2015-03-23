@@ -20,19 +20,11 @@ from docutils import nodes
 class sgexample(nodes.Admonition, nodes.Element):
     pass
 
-# todo how to implement a custom writer for that?
-class SelectableContainer(nodes.container):
-    pass
-
-# todo how to implement a custom writer for that?
-class ShogunCode(nodes.Node):
-    pass
-
 from sphinx.directives.code import LiteralInclude
 import os
 class ShogunExample(LiteralInclude):
     def run(self):
-	result = SelectableContainer()
+	result = nodes.container(classes=["tab-content"])
 	# save original node
 	orig_fname = self.arguments[0].strip()
 	orig_language = self.options['language'].strip()
@@ -42,9 +34,9 @@ class ShogunExample(LiteralInclude):
 	    self.arguments[0] = filename_sg_to_target(orig_fname, target, extension)
 	    self.options['language'] = target
 	    # call base class, returns list
-	    sgcode = ShogunCode()
-	    sgcode += LiteralInclude.run(self)
-	    result += sgcode
+            include_container = nodes.container(classes=[])
+	    include_container += LiteralInclude.run(self)
+	    result += include_container
 
 	# restore
 	self.arguments[0] = orig_fname

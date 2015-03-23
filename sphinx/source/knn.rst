@@ -4,7 +4,7 @@ K-Nearest-Neighbours
 
 Since Pythagoras, we know that :math:`a^2 + b^2 = c^2`. Use that for KNN. Blablabla
 
-.. todo:: Update this thing, ss
+.. todo:: Update this thing,
 
 -------
 Example

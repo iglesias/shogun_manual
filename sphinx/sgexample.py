@@ -11,13 +11,15 @@ def setup(app):
     return {'version': '0.1'}
 
 def visit_sgexample_node(self, node):
+    self.body.append('<div role="tabpanel0" class="tab-pane0" id="%s">' % node.language)
     self.visit_admonition(node)
+    self.body.append('</div>')
 
 def depart_sgexample_node(self, node):
     self.depart_admonition(node)
 
 from docutils import nodes
-class sgexample(nodes.Admonition, nodes.Element):
+class sgexample(nodes.Element):
     pass
 
 from sphinx.directives.code import LiteralInclude
@@ -34,7 +36,8 @@ class ShogunExample(LiteralInclude):
 	    self.arguments[0] = filename_sg_to_target(orig_fname, target, extension)
 	    self.options['language'] = target
 	    # call base class, returns list
-            include_container = nodes.container(classes=[])
+            include_container = sgexample()
+            include_container.language = target
 	    include_container += LiteralInclude.run(self)
 	    result += include_container
 

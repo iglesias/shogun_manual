@@ -2,16 +2,39 @@ def setup(app):
     app.add_config_value('sgexample_include_examples', False, True)
 
     app.add_node(sgexample,
-            html=(visit_sgexample_node, depart_sgexample_node),
-            latex=(visit_sgexample_node, depart_sgexample_node),
-            text=(visit_sgexample_node, depart_sgexample_node))
+            html=(visit_sgexample_node, depart_sgexample_node))
+    app.add_node(tabpanel,
+            html=(visit_tabpanel_node, depart_tabpanel_node))
+    app.add_node(navtabs,
+            html=(visit_navtabs_node, depart_navtabs_node))
+    app.add_node(navtab,
+            html=(visit_navtab_node, depart_navtab_node))
 
     app.add_directive('sgexample', ShogunExample)
 
     return {'version': '0.1'}
 
+def visit_tabpanel_node(self, node):
+    self.body.append('<div role="tabpanel">')
+def depart_tabpanel_node(self, node):
+    self.body.append('</div>')
+def visit_navtabs_node(self, node):
+    self.body.append('<ul class="nav nav-tabs" role="tablist">')
+def depart_navtabs_node(self, node):
+    self.body.append('</ul>')
+def visit_navtab_node(self, node):
+    cls = ""
+    if node.index is 0:
+        cls = 'class="active"'
+    self.body.append('<li role="presentation" %s><a href="#%s" aria-controls="%s" role="tab" data-toggle="tab">' % (cls, node.language, node.language))
+def depart_navtab_node(self, node):
+    self.body.append('</a></li>')
+
 def visit_sgexample_node(self, node):
-    self.body.append('<div role="tabpanel0" class="tab-pane0" id="%s">' % node.language)
+    cls = ""
+    if node.index is 0:
+        cls = 'active'
+    self.body.append('<div role="tabpanel" class="tab-pane %s" id="%s">' % (cls, node.language))
     self.visit_admonition(node)
     self.body.append('</div>')
 
@@ -21,25 +44,46 @@ def depart_sgexample_node(self, node):
 from docutils import nodes
 class sgexample(nodes.Element):
     pass
+class tabpanel(nodes.Element):
+    pass
+class navtabs(nodes.Element):
+    pass
+class navtab(nodes.Element):
+    pass
 
 from sphinx.directives.code import LiteralInclude
 import os
+import uuid
 class ShogunExample(LiteralInclude):
     def run(self):
-	result = nodes.container(classes=["tab-content"])
+        uid = str(uuid.uuid1())
+	result = tabpanel()
+        nvtbs = navtabs()
+        for i, (target, _) in enumerate(get_supported_languages()):
+            nvtb = navtab()
+            nvtb.language = target + uid
+            nvtb.index = i
+            nvtbs += nvtb
+
+        result += nvtbs
+
 	# save original node
 	orig_fname = self.arguments[0].strip()
 	orig_language = self.options['language'].strip()
 
+        tbcntnt = nodes.container(classes=['tab-content'])
+
 	# create nodes with parsed listings
-	for target, extension in get_supported_languages():
+	for i, (target, extension) in enumerate(get_supported_languages()):
 	    self.arguments[0] = filename_sg_to_target(orig_fname, target, extension)
 	    self.options['language'] = target
 	    # call base class, returns list
             include_container = sgexample()
-            include_container.language = target
+            include_container.language = target + uid
+            include_container.index = i
 	    include_container += LiteralInclude.run(self)
-	    result += include_container
+	    tbcntnt += include_container
+        result += tbcntnt
 
 	# restore
 	self.arguments[0] = orig_fname

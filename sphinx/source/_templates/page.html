@@ -5,25 +5,33 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#python" role="tab" data-toggle="tab">Python</a></li>
-    <li role="presentation"><a href="#octave" role="tab" data-toggle="tab">Octave</a></li>
-    <li role="presentation"><a href="#java" role="tab" data-toggle="tab">Java</a></li>
+    <li role="presentation" class="active-tab">
+        <a id="python-tab" href="#python-tab" role="tab" data-toggle="tab">Python</a>
+    </li>
+    <li role="presentation">
+        <a id="octave-tab" href="#octave-tab" role="tab" data-toggle="tab">Octave</a>
+    </li>
+    <li role="presentation">
+        <a id="java-tab" href="#java-tab" role="tab" data-toggle="tab">Java</a>
+    </li>
   </ul>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="python">
-      <div class="contents">
-      	{{ body }}
-      </div>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="octave">
-      <div class="contents">
-      	{{ body }}
-      </div>
-    </div>
-  </div><!--div class="tab-content"-->
-
 </div><!--div role="tabpanel"-->
+
+{{ body }}
+
 </div><!--div class="container"-->
+<script>
+$('#python-tab').on('show.bs.tab', function (e) {
+    $('ul[id^=tabs] a[href^=#python]').tab('show');
+});
+$('#octave-tab').on('show.bs.tab', function (e) {
+    $('ul[id^=tabs] a[href^=#octave]').tab('show');
+    console.log(e); 
+});
+$('#java-tab').on('show.bs.tab', function (e) {
+    $('ul[id^=tabs] a[href^=#java]').tab('show');
+});
+
+</script>
 {% endblock %}

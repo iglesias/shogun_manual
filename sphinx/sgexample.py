@@ -19,14 +19,14 @@ def visit_tabpanel_node(self, node):
 def depart_tabpanel_node(self, node):
     self.body.append('</div>')
 def visit_navtabs_node(self, node):
-    self.body.append('<ul class="nav nav-tabs" role="tablist">')
+    self.body.append('<ul style="display:none" id="tabs-%s" class="nav nav-tabs" role="tablist">' % node.uid)
 def depart_navtabs_node(self, node):
     self.body.append('</ul>')
 def visit_navtab_node(self, node):
     cls = ""
     if node.index is 0:
         cls = 'class="active"'
-    self.body.append('<li role="presentation" %s><a href="#%s" aria-controls="%s" role="tab" data-toggle="tab">' % (cls, node.language, node.language))
+    self.body.append('<li role="presentation" id="tab-%s" %s><a href="#%s" aria-controls="%s" role="tab" data-toggle="tab">' % (node.language, cls, node.language, node.language))
 def depart_navtab_node(self, node):
     self.body.append('</a></li>')
 
@@ -35,11 +35,9 @@ def visit_sgexample_node(self, node):
     if node.index is 0:
         cls = 'active'
     self.body.append('<div role="tabpanel" class="tab-pane %s" id="%s">' % (cls, node.language))
-    self.visit_admonition(node)
-    self.body.append('</div>')
 
 def depart_sgexample_node(self, node):
-    self.depart_admonition(node)
+    self.body.append('</div>')
 
 from docutils import nodes
 class sgexample(nodes.Element):
@@ -56,12 +54,13 @@ import os
 import uuid
 class ShogunExample(LiteralInclude):
     def run(self):
-        uid = str(uuid.uuid1())
+        uid = str(uuid.uuid1())[:6]
 	result = tabpanel()
         nvtbs = navtabs()
+        nvtbs.uid = uid
         for i, (target, _) in enumerate(get_supported_languages()):
             nvtb = navtab()
-            nvtb.language = target + uid
+            nvtb.language = target + '-code-' + uid
             nvtb.index = i
             nvtbs += nvtb
 
@@ -79,7 +78,7 @@ class ShogunExample(LiteralInclude):
 	    self.options['language'] = target
 	    # call base class, returns list
             include_container = sgexample()
-            include_container.language = target + uid
+            include_container.language = target + '-code-' + uid
             include_container.index = i
 	    include_container += LiteralInclude.run(self)
 	    tbcntnt += include_container

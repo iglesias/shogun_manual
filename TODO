@@ -1,4 +1,4 @@
 -Rather than .. sgexample:: ../code/knn.sg:load_data, it would be good to be able to do .. sgexample:: knn.sg:load_data. Shorter
 -Add automatic links to Shogun class docs whenever we see CKNN, or CKNN::train
 -Get rid of margin on example pages
-
+-Think about a way to uniformly add a set of references (wiki, bixtex, weblink), in a way that changing the layout can be done globally

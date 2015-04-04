@@ -1,6 +1,17 @@
+from sphinx.directives.code import LiteralInclude
+from docutils import nodes
+import os
+import uuid
+
 def setup(app):
+    """
+    Set up plugin
+    """
+    
+    # read values from config file
     app.add_config_value('sgexample_include_examples', False, True)
 
+	# register functions called upon node-visiting
     app.add_node(sgexample,
             html=(visit_sgexample_node, depart_sgexample_node))
     app.add_node(tabpanel,
@@ -14,6 +25,7 @@ def setup(app):
 
     return {'version': '0.1'}
 
+# functions called upon node visiting, building tab-structure for examples
 def visit_tabpanel_node(self, node):
     self.body.append('<div role="tabpanel">')
 def depart_tabpanel_node(self, node):
@@ -39,7 +51,7 @@ def visit_sgexample_node(self, node):
 def depart_sgexample_node(self, node):
     self.body.append('</div>')
 
-from docutils import nodes
+
 class sgexample(nodes.Element):
     pass
 class tabpanel(nodes.Element):
@@ -49,9 +61,7 @@ class navtabs(nodes.Element):
 class navtab(nodes.Element):
     pass
 
-from sphinx.directives.code import LiteralInclude
-import os
-import uuid
+
 class ShogunExample(LiteralInclude):
     def run(self):
         section = self.arguments[0].split(':')[1]

@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   knn
+   examples/classifier/knn
 
 Indices and tables
 ==================

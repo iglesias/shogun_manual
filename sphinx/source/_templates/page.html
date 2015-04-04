@@ -1,5 +1,6 @@
 {%- extends "layout.html" %}
 {% block body %}
+{% if pagename[:"examples"|length] == "examples" %}
 <div class="container">
 <div role="tabpanel">
 
@@ -32,6 +33,9 @@ $('#octave-tab').on('show.bs.tab', function (e) {
 $('#java-tab').on('show.bs.tab', function (e) {
     $('ul[id^=tabs] a[href^=#java]').tab('show');
 });
-
 </script>
+
+{% else %}
+{{ body }}
+{% endif %}
 {% endblock %}

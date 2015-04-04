@@ -9,7 +9,7 @@ Welcome to Shogun-manual's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    examples/classifier/knn
 

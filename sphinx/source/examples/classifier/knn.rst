@@ -14,12 +14,11 @@ Imagine you have some training and test data.
 
 .. sgexample:: ../code/knn.sg:load_data
 
-In order to run KNN, we need to choose a distance, for example `Euclidean <http://www.shogun-toolbox.org/doc/en/latest/classshogun_1_1CEuclideanDistance.html>`_.
-See `here <http://www.shogun-toolbox.org/doc/en/latest/classshogun_1_1CDistance.html>`_ for more distances. The distance needs the data we want to classify.
+In order to run KNN, we need to choose a distance, for example CEuclideanDistance, or other sub-classes of CDistance. The distance needs the data we want to classify.
 
 .. sgexample:: ../code/knn.sg:choose_distance
 
-Once you have chosen a distance, create an instance of the KNN classifier, passing it training data and labels
+Once you have chosen a distance, create an instance of the CKNN classifier, passing it training data and labels
 
 .. sgexample:: ../code/knn.sg:create_instance
 

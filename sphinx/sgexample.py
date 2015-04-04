@@ -54,6 +54,9 @@ import os
 import uuid
 class ShogunExample(LiteralInclude):
     def run(self):
+        section = self.arguments[0].split(':')[1]
+        self.options['start-after'] = section
+        self.options['end-before'] = section
         uid = str(uuid.uuid1())[:6]
 	result = tabpanel()
         nvtbs = navtabs()
@@ -67,14 +70,13 @@ class ShogunExample(LiteralInclude):
         result += nvtbs
 
 	# save original node
-	orig_fname = self.arguments[0].strip()
-	orig_language = self.options['language'].strip()
+        fname = self.arguments[0].split(':')[0].strip()
 
         tbcntnt = nodes.container(classes=['tab-content'])
 
 	# create nodes with parsed listings
 	for i, (target, extension) in enumerate(get_supported_languages()):
-	    self.arguments[0] = filename_sg_to_target(orig_fname, target, extension)
+            self.arguments[0] = filename_sg_to_target(fname, target, extension)
 	    self.options['language'] = target
 	    # call base class, returns list
             include_container = sgexample()
@@ -83,10 +85,6 @@ class ShogunExample(LiteralInclude):
 	    include_container += LiteralInclude.run(self)
 	    tbcntnt += include_container
         result += tbcntnt
-
-	# restore
-	self.arguments[0] = orig_fname
-	self.options['language'] = orig_language
 
 	return [result]
 

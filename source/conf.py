@@ -29,12 +29,10 @@ import os
 # ones.
 extensions = [
     'sphinx.ext.mathjax',
-    'todo',
     'sgexample'
 ]
 
 # options of extensions
-todo_include_todos = True
 sgexample_include_examples = True
 
 # Add any paths that contain templates here, relative to this directory.

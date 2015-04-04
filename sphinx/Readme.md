@@ -1,3 +1,0 @@
-Run as
-
-```make preview```

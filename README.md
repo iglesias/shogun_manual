@@ -7,41 +7,15 @@ We showcase our main strength via allowing users to switch the target language o
 
 # Prototype
 
-The idea is to write a single file such as ```knn.md```.
-Those are then locally copied into ```knn_python.md```, ```knn_octave.md```, with lines as
+This is a system to replace our modular examples, while automatically generating a more pretty documentation around them.
+We combine easy API examples with a pretty web-documentation where we showcase Shogun's main strength: multiple language bindings with the same syntax.
 
-```
-\snippet knn.sg	 load_data
-```
-
-being transformed into
-
-```
-\snippet knn.py	 load_data
-```
-
-for the appropriate target language.
-
-Have a look into ```classifier```, where I created such copies by hand. A script would do that in practice.
-
-
-The file ```classifier/examples/knn.sg``` here contains the meta-language example.
-This (with some soon to happen patch) can be easily converted to ```classifier/examples/knn.py```, ```classifier/examples/knn.m``` etc for all target languages. I also included those files for now. See [Esben's meta-language project](https://github.com/sorig/shogun/tree/develop/examples/example-generation).
+The idea is to write a two files ```source/examples/knn.rst``` and ```source/examples/code/knn.sg```, where we describe a method (see 1st file), and can include snippets from a meta-language example (see 2nd file). We then use Sphinx with a custom plugin to generate a pretty page that shows these examples with one tab for each language. Everything automatic!
 
 Run
 
 ```
-doxygen doxyfile.in . html
+make preview
 ```
 
-to get an example output. Look at ```html/page.html```.
-
-In practice, we would now paste these pages together to get a page that contains all listings one after another.
-The we add a JavaScript bar that allows users to select their language of choice, hiding all other listings from the html.
-
-# Pipeline
- * We write pages such as ```knn.md```, including snippets from a meta language example ```knn.sg```
- * Some script produces copies such as ```knn_python.md``` which include the python source file for snippets
- * doxygen renders static html pages for all languages
- * (Maybe listings from all pages are copied into a big html file that contains all listings)
- * Some JavaScript header bar allows to switch between the languages while browsing the docs
+and then open your browser at ```localhost:8000``` to see the demo.

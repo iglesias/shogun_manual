@@ -13,10 +13,10 @@ Contents:
 
    examples/classifier/knn
 
-
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+

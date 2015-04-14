@@ -32,9 +32,6 @@ extensions = [
     'sgexample'
 ]
 
-# options of extensions
-sgexample_include_examples = True
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -179,6 +176,16 @@ html_static_path = ['_static']
 
 # This is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = None
+
+target_languages = (
+        ('python', 'py'),
+        ('octave', 'm')
+        )
+
+html_context = {
+        'target_languages': 
+        [x[0] for x in target_languages]
+}
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'Shogun-manualdoc'

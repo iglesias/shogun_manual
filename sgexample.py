@@ -8,10 +8,9 @@ def setup(app):
     Set up plugin
     """
     
-    # read values from config file
-    app.add_config_value('sgexample_include_examples', False, True)
+    app.add_config_value('target_languages', None, True)
 
-	# register functions called upon node-visiting
+    # register functions called upon node-visiting
     app.add_node(sgexample,
             html=(visit_sgexample_node, depart_sgexample_node))
     app.add_node(tabpanel,
@@ -24,8 +23,17 @@ def setup(app):
             html=(visit_fluid_tab_content, depart_fluid_tab_content))
 
     app.add_directive('sgexample', ShogunExample)
+    app.connect('builder-inited', setup_languages)
 
     return {'version': '0.1'}
+
+class LocalContext(object):
+    pass
+
+context = LocalContext()
+
+def setup_languages(app):
+    context.target_languages = app.config.target_languages
 
 # functions called upon node visiting, building tab-structure for examples
 def visit_tabpanel_node(self, node):
@@ -71,7 +79,6 @@ class navtabs(nodes.Element):
 class navtab(nodes.Element):
     pass
 
-
 class ShogunExample(LiteralInclude):
     def run(self):
         section = self.arguments[0].split(':')[1]
@@ -81,7 +88,7 @@ class ShogunExample(LiteralInclude):
 	result = tabpanel()
         nvtbs = navtabs()
         nvtbs.uid = uid
-        for i, (target, _) in enumerate(get_supported_languages()):
+        for i, (target, _) in enumerate(context.target_languages):
             nvtb = navtab()
             nvtb.language = target + '-code-' + uid
             nvtb.index = i
@@ -95,7 +102,7 @@ class ShogunExample(LiteralInclude):
         tbcntnt = fluid_tab_content()
 
 	# create nodes with parsed listings
-	for i, (target, extension) in enumerate(get_supported_languages()):
+	for i, (target, extension) in enumerate(context.target_languages):
             self.arguments[0] = filename_sg_to_target(fname, target, extension)
 	    self.options['language'] = target
 	    # call base class, returns list
@@ -120,22 +127,3 @@ def filename_sg_to_target(fname, target, extension):
 
     # construct actual code filename
     return os.path.join(directory, target, "%s.%s" % (fname_base, extension))
-
-def get_supported_languages():
-    return (("python", "py"),
-            ("octave", "m"))
-
-    from docutils.statemachine import ViewList
-def container_wrapper(directive, literal_node, caption):
-    container_node = nodes.container('', literal_block=True,
-            classes=['literal-block-wrapper'])
-    parsed = nodes.Element()
-    directive.state.nested_parse(ViewList([caption], source=''),
-            directive.content_offset, parsed)
-    caption_node = nodes.caption(parsed[0].rawsource, '',
-            *parsed[0].children)
-    caption_node.source = parsed[0].source
-    caption_node.line = parsed[0].line
-    container_node += caption_node
-    container_node += literal_node
-    return container_node

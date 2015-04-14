@@ -1,7 +1,7 @@
 {%- extends "layout.html" %}
 {% block body %}
 {% if pagename[:"examples"|length] == "examples" %}
-<div class="container">
+<div class="container-fluid">
 <div role="tabpanel">
 
   <!-- Nav tabs -->
@@ -18,10 +18,9 @@
   </ul>
 
 </div><!--div role="tabpanel"-->
+</div><!--div class="container-fluid"-->
 
 {{ body }}
-
-</div><!--div class="container"-->
 
 <script>
 $('#python-tab').on('show.bs.tab', function (e) {
@@ -29,7 +28,6 @@ $('#python-tab').on('show.bs.tab', function (e) {
 });
 $('#octave-tab').on('show.bs.tab', function (e) {
     $('ul[id^=tabs] a[href^=#octave]').tab('show');
-    console.log(e); 
 });
 $('#java-tab').on('show.bs.tab', function (e) {
     $('ul[id^=tabs] a[href^=#java]').tab('show');

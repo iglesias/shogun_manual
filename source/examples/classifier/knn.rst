@@ -10,6 +10,7 @@ Example
 
 Imagine you have some training and test data.
 
+
 .. sgexample:: ../code/knn.sg:load_data
 
 In order to run KNN, we need to choose a distance, for example CEuclideanDistance, or other sub-classes of CDistance. The distance needs the data we want to classify.

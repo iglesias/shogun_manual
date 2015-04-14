@@ -20,6 +20,8 @@ def setup(app):
             html=(visit_navtabs_node, depart_navtabs_node))
     app.add_node(navtab,
             html=(visit_navtab_node, depart_navtab_node))
+    app.add_node(fluid_tab_content,
+            html=(visit_fluid_tab_content, depart_fluid_tab_content))
 
     app.add_directive('sgexample', ShogunExample)
 
@@ -30,10 +32,12 @@ def visit_tabpanel_node(self, node):
     self.body.append('<div role="tabpanel">')
 def depart_tabpanel_node(self, node):
     self.body.append('</div>')
+
 def visit_navtabs_node(self, node):
     self.body.append('<ul style="display:none" id="tabs-%s" class="nav nav-tabs" role="tablist">' % node.uid)
 def depart_navtabs_node(self, node):
     self.body.append('</ul>')
+
 def visit_navtab_node(self, node):
     cls = ""
     if node.index is 0:
@@ -42,17 +46,23 @@ def visit_navtab_node(self, node):
 def depart_navtab_node(self, node):
     self.body.append('</a></li>')
 
+def visit_fluid_tab_content(self, node):
+    self.body.append('<div class="fluid-container tab-content">')
+def depart_fluid_tab_content(self, node):
+    self.body.append('</div>')
+
 def visit_sgexample_node(self, node):
     cls = ""
     if node.index is 0:
         cls = 'active'
     self.body.append('<div role="tabpanel" class="tab-pane %s" id="%s">' % (cls, node.language))
-
 def depart_sgexample_node(self, node):
     self.body.append('</div>')
 
 
 class sgexample(nodes.Element):
+    pass
+class fluid_tab_content(nodes.Element):
     pass
 class tabpanel(nodes.Element):
     pass
@@ -82,7 +92,7 @@ class ShogunExample(LiteralInclude):
 	# save original node
         fname = self.arguments[0].split(':')[0].strip()
 
-        tbcntnt = nodes.container(classes=['tab-content'])
+        tbcntnt = fluid_tab_content()
 
 	# create nodes with parsed listings
 	for i, (target, extension) in enumerate(get_supported_languages()):

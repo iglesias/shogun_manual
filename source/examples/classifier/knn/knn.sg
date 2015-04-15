@@ -1,5 +1,5 @@
+#![begin]
 #![load_data]
-# sgexample
 CSVFile trainf("../data/fm_train_real.dat")
 RealFeatures feats_train(trainf)
 CSVFile testf("../data/fm_test_real.dat")
@@ -22,3 +22,4 @@ Labels test_labels = knn.apply(feats_test)
 RealVector output = test_labels.get_values()
 print output
 #![train_and_apply]
+#![end]

@@ -1,7 +1,7 @@
 modshogun
 
+%![begin]
 %![load_data]
-% octave example
 trainf = CSVFile('../data/fm_train_real.dat');
 feats_train = RealFeatures(trainf);
 testf = CSVFile('../data/fm_test_real.dat');
@@ -24,4 +24,4 @@ test_labels = knn.apply(feats_test);
 output = test_labels.get_values();
 disp(output);
 %![train_and_apply]
-
+%![end]

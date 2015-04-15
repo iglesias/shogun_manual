@@ -1,17 +1,16 @@
-.. Shogun-manual documentation master file, created by
-   sphinx-quickstart on Fri Mar 20 22:34:40 2015.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Shogun-manual's documentation!
+Welcome to Shogun documentation!
 =========================================
 
-Contents:
+You may find something interesting here
+
+Contents
+========
 
 .. toctree::
    :maxdepth: 1
+   :glob:
 
-   examples/classifier/knn
+   examples/**/*
 
 Indices and tables
 ==================

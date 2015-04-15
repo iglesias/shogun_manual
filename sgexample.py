@@ -2,12 +2,15 @@ from sphinx.directives.code import LiteralInclude
 from docutils import nodes
 import os
 import uuid
+import sys
+
+PATH_TO_SHOGUN_META = "/Users/lisitsyn/Matters/OSS/shogun/examples/example-generation/"
+sys.path.insert(0, PATH_TO_SHOGUN_META)
+import parse
+import translate
+import json
 
 def setup(app):
-    """
-    Set up plugin
-    """
-    
     app.add_config_value('target_languages', None, True)
 
     # register functions called upon node-visiting
@@ -35,7 +38,17 @@ context = LocalContext()
 def setup_languages(app):
     context.target_languages = app.config.target_languages
 
-# functions called upon node visiting, building tab-structure for examples
+class sgexample(nodes.Element):
+    pass
+class fluid_tab_content(nodes.Element):
+    pass
+class tabpanel(nodes.Element):
+    pass
+class navtabs(nodes.Element):
+    pass
+class navtab(nodes.Element):
+    pass
+
 def visit_tabpanel_node(self, node):
     self.body.append('<div role="tabpanel">')
 def depart_tabpanel_node(self, node):
@@ -67,63 +80,65 @@ def visit_sgexample_node(self, node):
 def depart_sgexample_node(self, node):
     self.body.append('</div>')
 
-
-class sgexample(nodes.Element):
-    pass
-class fluid_tab_content(nodes.Element):
-    pass
-class tabpanel(nodes.Element):
-    pass
-class navtabs(nodes.Element):
-    pass
-class navtab(nodes.Element):
-    pass
-
 class ShogunExample(LiteralInclude):
+    def element_id(self, target, uid):
+        return '%s-code-%s' % (target, uid)
+    def resolve_path(self, name):
+        return self.state.document.settings.env.relfn2path(name)
+    def convert_example(self, fname, target, extension):
+        source_path = self.resolve_path(fname)[1]
+        target_path = "%s/targets/%s.json" % (PATH_TO_SHOGUN_META, target)
+        destination_path = self.resolve_path(fname+'.'+extension)[1]
+
+        with open(source_path, 'r') as source, \
+             open(target_path, 'r') as translator, \
+             open(destination_path,'w') as destination:
+            ast = parse.parse(source.read(), source_path)
+            language = json.load(translator)
+            translated = translate.translate(ast, language)
+            destination.write(translated)
+
     def run(self):
+
         section = self.arguments[0].split(':')[1]
-        self.options['start-after'] = section
-        self.options['end-before'] = section
+        if section == 'begin':
+            self.options['end-before'] = section
+        elif section == 'end':
+            self.options['start-after'] = section
+        else:
+            self.options['start-after'] = section
+            self.options['end-before'] = section
         uid = str(uuid.uuid1())[:6]
-	result = tabpanel()
+        result = tabpanel()
         nvtbs = navtabs()
         nvtbs.uid = uid
         for i, (target, _) in enumerate(context.target_languages):
             nvtb = navtab()
-            nvtb.language = target + '-code-' + uid
+            nvtb.language = self.element_id(target, uid)
             nvtb.index = i
             nvtbs += nvtb
 
         result += nvtbs
 
-	# save original node
+        # save original node
         fname = self.arguments[0].split(':')[0].strip()
 
         tbcntnt = fluid_tab_content()
 
-	# create nodes with parsed listings
-	for i, (target, extension) in enumerate(context.target_languages):
-            self.arguments[0] = filename_sg_to_target(fname, target, extension)
-	    self.options['language'] = target
-	    # call base class, returns list
+        # create nodes with parsed listings
+        for i, (target, extension) in enumerate(context.target_languages):
+            self.convert_example(fname, target, extension)
+            self.arguments[0] = fname+'.'+extension
+            self.options['language'] = target
+            # call base class, returns list
             include_container = sgexample()
-            include_container.language = target + '-code-' + uid
+            include_container.language = self.element_id(target, uid)
             include_container.index = i
-	    include_container += LiteralInclude.run(self)
-	    tbcntnt += include_container
+            include_container += LiteralInclude.run(self)
+            tbcntnt += include_container
         result += tbcntnt
 
-	return [result]
+        return [result]
 
-def filename_sg_to_target(fname, target, extension):
-    # extract filename from unicode
-    splitted = str(fname).split(os.sep)
-    directory = os.sep.join(splitted[:-1])
-    fname_base = splitted[-1][:-3]
-
-    # make sure the format is like "knn.sg"
-    if not splitted[-3:] != ".sg":
-	raise ValueError("Could not parse example filename \"%s\"" % fname)
-
-    # construct actual code filename
-    return os.path.join(directory, target, "%s.%s" % (fname_base, extension))
+def meta_convert(fname):
+    pass
